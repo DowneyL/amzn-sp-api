@@ -27,6 +27,6 @@
         "psr-4": { "SellingPartnerApi\\" : "lib/" }
     },
     "autoload-dev": {
-        "psr-4": { "SellingPartnerApi\\" : "test/" }
+        "psr-4": { "SellingPartnerApi\\Tests\\" : "test/" }
     }
 }
