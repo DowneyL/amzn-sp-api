@@ -11,7 +11,14 @@
         "sp-api",
         "selling partner api"
     ],
-    "license": "proprietary",
+    "license": "BSD-3-Clause",
+    "type": "library",
+    "authors": [
+        {
+            "name": "august6th",
+            "homepage": "https://github.com/august6th"
+        }
+    ],
     "require": {
         "php": ">=5.5",
         "ext-curl": "*",
