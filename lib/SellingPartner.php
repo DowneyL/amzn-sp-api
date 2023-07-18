@@ -172,7 +172,16 @@ class SellingPartner implements Signable
                 continue;
             }
 
-            $sp->$name = $value;
+            if ($name === 'endpoint' && is_string($value)) {
+                $value = strtoupper($value);
+                $sp->endpoint = Endpoint::$value();
+            } else {
+                $sp->$name = $value;
+            }
+        }
+
+        if (!($sp->endpoint instanceof EndpointContract)) {
+            $sp->endpoint = Endpoint::NA();
         }
 
         return $sp;
