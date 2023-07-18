@@ -36,5 +36,6 @@
     },
     "autoload-dev": {
         "psr-4": { "SellingPartnerApi\\Tests\\" : "test/" }
-    }
+    },
+    "minimum-stability": "dev"
 }
