@@ -1,5 +1,6 @@
 {
     "name": "august6th/amzn-sp-api",
+    "version": "1.0.0",
     "description": "Amazon Selling Partner API SDK",
     "keywords": [
         "swagger",
