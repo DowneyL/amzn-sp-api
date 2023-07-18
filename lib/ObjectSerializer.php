@@ -252,7 +252,14 @@ class ObjectSerializer
                 $values[] = self::deserialize($value, $subClass, null);
             }
             return $values;
-        } elseif ($class === 'object') {
+        }  elseif (strcasecmp(substr($class, -4), 'list') === 0) {
+            $subClass = substr($class, 0, -4);
+            $values = [];
+            foreach ($data as $key => $value) {
+                $values[] = self::deserialize($value, $subClass, null);
+            }
+            return $values;
+        }  elseif ($class === 'object') {
             settype($data, 'array');
             return $data;
         } elseif ($class === '\DateTime') {
