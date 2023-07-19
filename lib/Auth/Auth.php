@@ -8,6 +8,7 @@ use SellingPartnerApi\Contracts\Auth\Authenticatable;
 use SellingPartnerApi\Contracts\Auth\Signable;
 use SellingPartnerApi\Contracts\Endpoint\Endpoint AS EndpointContract;
 use SellingPartnerApi\Helpers\Date;
+use SellingPartnerApi\Http\Request;
 
 abstract class Auth implements Authenticatable, Signable
 {
@@ -98,11 +99,11 @@ abstract class Auth implements Authenticatable, Signable
     }
 
     /**
-     * @param RequestInterface $request
+     * @param Request $request
      * @return RequestInterface
      * @throws \Exception
      */
-    public function sign(RequestInterface $request)
+    public function sign(Request $request)
     {
         try {
             if (!$this->getCredential()) {

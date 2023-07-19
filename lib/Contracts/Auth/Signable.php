@@ -2,12 +2,12 @@
 
 namespace SellingPartnerApi\Contracts\Auth;
 
-use Psr\Http\Message\RequestInterface;
+use SellingPartnerApi\Http\Request;
 
 interface Signable
 {
     /**
-     * @return RequestInterface
+     * @return Request
      */
-    public function sign(RequestInterface $request);
+    public function sign(Request $request);
 }

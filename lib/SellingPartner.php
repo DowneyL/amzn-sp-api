@@ -6,11 +6,12 @@ use GuzzleHttp\ClientInterface;
 use Psr\Http\Message\RequestInterface;
 use SellingPartnerApi\Auth\BasicAuth;
 use SellingPartnerApi\Auth\GrantlessAuth;
-use SellingPartnerApi\Client\Client;
+use SellingPartnerApi\Http\Client;
 use SellingPartnerApi\Contracts\Auth\Signable;
 use SellingPartnerApi\Contracts\Endpoint\Endpoint as EndpointContract;
 use SellingPartnerApi\Endpoint\Endpoint;
 use SellingPartnerApi\Helpers\Str;
+use SellingPartnerApi\Http\Request;
 
 /**
  * @method \SellingPartnerApi\Api\AplusContentApi aplusContentApi()
@@ -104,16 +105,6 @@ class SellingPartner implements Signable
      * @var EndpointContract
      */
     public $endpoint;
-
-    /**
-     * @var RequestInterface
-     */
-    private $request;
-
-    /**
-     * @var array
-     */
-    private $requestOptions = [];
 
     /**
      * Create instance with default options
@@ -274,85 +265,13 @@ class SellingPartner implements Signable
     }
 
     /**
-     * @param RequestInterface $request
+     * @param Request $request
      * @param array $options
      * @return RequestInterface
      * @throws \Exception
      */
-    public function sign(RequestInterface $request, array $options = [])
+    public function sign(Request $request, array $options = [])
     {
-        $this->request = $request;
-        $this->requestOptions = $options;
-
-        return $this->getSignerByRequest()->sign($this->request);
-    }
-
-    /**
-     * @return Signable
-     */
-    protected function getSignerByRequest()
-    {
-        if ($scope = $this->checkGrantlessRequest()) {
-            return new GrantlessAuth(
-                $this->endpoint, $this->clientId, $this->clientSecret,
-                $this->accessKeyId, $this->secretAccessKey, $scope
-            );
-        }
-
-        return new BasicAuth(
-            $this->endpoint, $this->clientId, $this->clientSecret,
-            $this->accessKeyId, $this->secretAccessKey, $this->refreshToken
-        );
-    }
-
-    /**
-     * @return array
-     */
-    protected function grantlessOperationMap()
-    {
-        return [
-            'sellingpartnerapi::notifications' => [
-                'post' => [
-                    '/notifications/v1/destinations',
-                ],
-                'delete' => [
-                    '/notifications/v1/destinations/{destinationId}',
-                    '/notifications/v2/subscriptions/{notificationType}/{subscriptionId}',
-                ],
-                'get' => [
-                    '/notifications/v1/destinations/{destinationId}',
-                    '/notifications/v1/destinations',
-                    '/notifications/v1/subscriptions/{notificationType}/{subscriptionId}',
-                    '/authorization/v1/authorizationCode',
-                ],
-            ],
-        ];
-    }
-
-    /**
-     * @return string
-     */
-    protected function checkGrantlessRequest()
-    {
-        $requestMethod = strtolower($this->request->getMethod());
-        $requestPath = $this->request->getUri()->getPath();
-        $requestOptions = $this->requestOptions;
-        $requestScope = '';
-        foreach ($this->grantlessOperationMap() as $scope => $methodPathMap) {
-            foreach ($methodPathMap as $method => $paths) {
-                if ($method !== $requestMethod) {
-                    continue;
-                }
-                foreach ($paths as $path) {
-                    if (!Str::isPathMatch($requestPath, $path)) {
-                        continue;
-                    }
-                    $requestScope = $scope;
-                    break 3;
-                }
-            }
-        }
-
-        return $requestScope;
+        return $request->getSigner($this)->sign($request);
     }
 }

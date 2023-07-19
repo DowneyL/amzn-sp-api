@@ -252,7 +252,7 @@ class ObjectSerializer
                 $values[] = self::deserialize($value, $subClass, null);
             }
             return $values;
-        }  elseif (strcasecmp(substr($class, -4), 'list') === 0) {
+        }  elseif (strcasecmp(substr($class, -4), 'list') === 0 && is_array($data)) {
             $subClass = substr($class, 0, -4);
             $values = [];
             foreach ($data as $key => $value) {
@@ -314,11 +314,24 @@ class ObjectSerializer
             foreach ($instance::swaggerTypes() as $property => $type) {
                 $propertySetter = $instance::setters()[$property];
 
-                if (!isset($propertySetter) || !isset($data->{$instance::attributeMap()[$property]})) {
+                $dataKeyExists = false;
+                $dataKey = $instance::attributeMap()[$property];
+                $ucfDataKey = ucfirst($dataKey);
+                if (isset($data->{$dataKey})) {
+                    $dataKeyExists = true;
+                }
+
+                if (isset($data->{$ucfDataKey})) {
+                    $dataKeyExists = true;
+                    $dataKey = $ucfDataKey;
+                }
+
+                if (!isset($propertySetter) || !$dataKeyExists) {
                     continue;
                 }
 
-                $propertyValue = $data->{$instance::attributeMap()[$property]};
+
+                $propertyValue = $data->{$dataKey};
                 if (isset($propertyValue)) {
                     $instance->$propertySetter(self::deserialize($propertyValue, $type, null));
                 }
