@@ -14,46 +14,8 @@ use SellingPartnerApi\Helpers\Str;
 use SellingPartnerApi\Http\Request;
 
 /**
- * @method \SellingPartnerApi\Api\AplusContentApi aplusContentApi()
- * @method \SellingPartnerApi\Api\AuthorizationApi authorizationApi()
- * @method \SellingPartnerApi\Api\CatalogApi catalogApi()
- * @method \SellingPartnerApi\Api\CustomerInvoicesApi customerInvoicesApi()
- * @method \SellingPartnerApi\Api\DefaultApi defaultApi()
- * @method \SellingPartnerApi\Api\DefinitionsApi definitionsApi()
- * @method \SellingPartnerApi\Api\EasyShipApi easyShipApi()
- * @method \SellingPartnerApi\Api\FbaInboundApi fbaInboundApi()
- * @method \SellingPartnerApi\Api\FbaInventoryApi fbaInventoryApi()
- * @method \SellingPartnerApi\Api\FbaOutboundApi fbaOutboundApi()
- * @method \SellingPartnerApi\Api\FeedsApi feedsApi()
- * @method \SellingPartnerApi\Api\FeesApi feesApi()
- * @method \SellingPartnerApi\Api\ListingsApi listingsApi()
- * @method \SellingPartnerApi\Api\MerchantFulfillmentApi merchantFulfillmentApi()
- * @method \SellingPartnerApi\Api\MessagingApi messagingApi()
- * @method \SellingPartnerApi\Api\NotificationsApi notificationsApi()
- * @method \SellingPartnerApi\Api\OffersApi offersApi()
- * @method \SellingPartnerApi\Api\OrdersV0Api ordersV0Api()
- * @method \SellingPartnerApi\Api\ProductPricingApi productPricingApi()
- * @method \SellingPartnerApi\Api\ReportsApi reportsApi()
- * @method \SellingPartnerApi\Api\SalesApi salesApi()
- * @method \SellingPartnerApi\Api\SellersApi sellersApi()
- * @method \SellingPartnerApi\Api\SellingpartnersApi sellingpartnersApi()
- * @method \SellingPartnerApi\Api\ServiceApi serviceApi()
- * @method \SellingPartnerApi\Api\ShipmentApi shipmentApi()
- * @method \SellingPartnerApi\Api\ShipmentInvoiceApi shipmentInvoiceApi()
- * @method \SellingPartnerApi\Api\ShippingApi shippingApi()
- * @method \SellingPartnerApi\Api\SmallAndLightApi smallAndLightApi()
- * @method \SellingPartnerApi\Api\SolicitationsApi solicitationsApi()
- * @method \SellingPartnerApi\Api\TokensApi tokensApi()
- * @method \SellingPartnerApi\Api\UpdateInventoryApi updateInventoryApi()
- * @method \SellingPartnerApi\Api\UploadsApi uploadsApi()
- * @method \SellingPartnerApi\Api\VendorDFSandboxApi vendorDFSandboxApi()
- * @method \SellingPartnerApi\Api\VendorDFSandboxtransactionstatusApi vendorDFSandboxtransactionstatusApi()
- * @method \SellingPartnerApi\Api\VendorInvoiceApi vendorInvoiceApi()
- * @method \SellingPartnerApi\Api\VendorOrdersApi vendorOrdersApi()
- * @method \SellingPartnerApi\Api\VendorPaymentsApi vendorPaymentsApi()
- * @method \SellingPartnerApi\Api\VendorShippingApi vendorShippingApi()
- * @method \SellingPartnerApi\Api\VendorShippingLabelsApi vendorShippingLabelsApi()
- * @method \SellingPartnerApi\Api\VendorTransactionApi vendorTransactionApi()
+ * @method \SellingPartnerApi\Api\OrdersV0\OrdersV0Api ordersV0Api()
+ * @method \SellingPartnerApi\Api\Sellers\SellersApi sellersApi()
  */
 class SellingPartner implements Signable
 {
@@ -123,8 +85,9 @@ class SellingPartner implements Signable
      */
     public function __call($name, $arguments)
     {
+        $dir = rtrim($name, 'Api');
         $name = ucfirst($name);
-        $api = "\SellingPartnerApi\Api\\$name";
+        $api = "\SellingPartnerApi\Api\\$dir\\$name";
         if (!class_exists($api)) {
             throw new \RuntimeException("Api $name not exists!");
         }
