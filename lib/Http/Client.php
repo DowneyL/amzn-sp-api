@@ -4,10 +4,8 @@ namespace SellingPartnerApi\Http;
 
 use GuzzleHttp\Client as GuzzleHttpClient;
 use GuzzleHttp\Promise\PromiseInterface;
-use GuzzleHttp\Psr7\Query as GuzzleHttpQuery;
 use Psr\Http\Message\RequestInterface;
 use SellingPartnerApi\SellingPartner;
-use SellingPartnerApi\Http\Query as SellingPartnerQuery;
 
 class Client extends GuzzleHttpClient
 {
