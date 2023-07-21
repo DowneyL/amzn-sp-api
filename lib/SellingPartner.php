@@ -4,16 +4,16 @@ namespace SellingPartnerApi;
 
 use GuzzleHttp\ClientInterface;
 use Psr\Http\Message\RequestInterface;
-use SellingPartnerApi\Auth\BasicAuth;
-use SellingPartnerApi\Auth\GrantlessAuth;
+use SellingPartnerApi\Helpers\Api;
 use SellingPartnerApi\Http\Client;
 use SellingPartnerApi\Contracts\Auth\Signable;
 use SellingPartnerApi\Contracts\Endpoint\Endpoint as EndpointContract;
 use SellingPartnerApi\Endpoint\Endpoint;
-use SellingPartnerApi\Helpers\Str;
 use SellingPartnerApi\Http\Request;
 
+// TODO add more @method
 /**
+ * @method \SellingPartnerApi\Api\Tokens20210301\TokensApi tokensApi()
  * @method \SellingPartnerApi\Api\OrdersV0\OrdersV0Api ordersV0Api()
  * @method \SellingPartnerApi\Api\Sellers\SellersApi sellersApi()
  */
@@ -85,12 +85,7 @@ class SellingPartner implements Signable
      */
     public function __call($name, $arguments)
     {
-        $dir = rtrim($name, 'Api');
-        $name = ucfirst($name);
-        $api = "\SellingPartnerApi\Api\\$dir\\$name";
-        if (!class_exists($api)) {
-            throw new \RuntimeException("Api $name not exists!");
-        }
+        $api = Api::findClassByName($name);
         $client = $this->createClient($arguments);
         $configuration = $this->createConfiguration($arguments);
         $headerSelector = $this->createHeaderSelector($arguments);

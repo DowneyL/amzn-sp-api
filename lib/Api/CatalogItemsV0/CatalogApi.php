@@ -1,6 +1,6 @@
 <?php
 /**
- * CatalogItemsV0Api
+ * CatalogApi
  * PHP version 5
  *
  * @category Class
@@ -39,14 +39,14 @@ use SellingPartnerApi\HeaderSelector;
 use SellingPartnerApi\ObjectSerializer;
 
 /**
- * CatalogItemsV0Api Class Doc Comment
+ * CatalogApi Class Doc Comment
  *
  * @category Class
  * @package  SellingPartnerApi
  * @author   Swagger Codegen team
  * @link     https://github.com/swagger-api/swagger-codegen
  */
-class CatalogItemsV0Api
+class CatalogApi
 {
     /**
      * @var ClientInterface
@@ -390,7 +390,7 @@ class CatalogItemsV0Api
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
             }
         }
 
@@ -406,7 +406,7 @@ class CatalogItemsV0Api
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -718,7 +718,7 @@ class CatalogItemsV0Api
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
             }
         }
 
@@ -734,7 +734,7 @@ class CatalogItemsV0Api
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1091,7 +1091,7 @@ class CatalogItemsV0Api
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
             }
         }
 
@@ -1107,7 +1107,7 @@ class CatalogItemsV0Api
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),

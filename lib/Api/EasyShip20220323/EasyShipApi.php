@@ -1,6 +1,6 @@
 <?php
 /**
- * EasyShip20220323Api
+ * EasyShipApi
  * PHP version 5
  *
  * @category Class
@@ -39,14 +39,14 @@ use SellingPartnerApi\HeaderSelector;
 use SellingPartnerApi\ObjectSerializer;
 
 /**
- * EasyShip20220323Api Class Doc Comment
+ * EasyShipApi Class Doc Comment
  *
  * @category Class
  * @package  SellingPartnerApi
  * @author   Swagger Codegen team
  * @link     https://github.com/swagger-api/swagger-codegen
  */
-class EasyShip20220323Api
+class EasyShipApi
 {
     /**
      * @var ClientInterface
@@ -378,7 +378,7 @@ class EasyShip20220323Api
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
             }
         }
 
@@ -394,7 +394,7 @@ class EasyShip20220323Api
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -695,7 +695,7 @@ class EasyShip20220323Api
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
             }
         }
 
@@ -711,7 +711,7 @@ class EasyShip20220323Api
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1028,7 +1028,7 @@ class EasyShip20220323Api
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
             }
         }
 
@@ -1044,7 +1044,7 @@ class EasyShip20220323Api
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1339,7 +1339,7 @@ class EasyShip20220323Api
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
             }
         }
 
@@ -1355,7 +1355,7 @@ class EasyShip20220323Api
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1650,7 +1650,7 @@ class EasyShip20220323Api
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
             }
         }
 
@@ -1666,7 +1666,7 @@ class EasyShip20220323Api
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
         return new Request(
             'PATCH',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),

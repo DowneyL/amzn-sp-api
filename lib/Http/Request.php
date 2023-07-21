@@ -10,10 +10,11 @@ use SellingPartnerApi\Auth\BasicAuth;
 use SellingPartnerApi\Auth\GrantlessAuth;
 use SellingPartnerApi\Auth\RestrictedAuth;
 use SellingPartnerApi\Contracts\Auth\Signable;
+use SellingPartnerApi\Endpoint\Endpoint;
 use SellingPartnerApi\Helpers\Str;
 use SellingPartnerApi\Http\Query as SellingPartnerQuery;
-use SellingPartnerApi\Model\CreateRestrictedDataTokenRequest;
-use SellingPartnerApi\Model\RestrictedResource;
+use SellingPartnerApi\Model\Tokens20210301\CreateRestrictedDataTokenRequest;
+use SellingPartnerApi\Model\Tokens20210301\RestrictedResource;
 use SellingPartnerApi\SellingPartner;
 
 class Request implements RequestInterface
@@ -279,6 +280,10 @@ class Request implements RequestInterface
      */
     private function checkRestrictedRequest()
     {
+        if (Endpoint::$sandbox) {
+            return null;
+        }
+
         $requestMethod = strtolower($this->getMethod());
         $requestPath = $this->getUri()->getPath();
 
@@ -313,12 +318,17 @@ class Request implements RequestInterface
         $map = [
             'method' => $this->getMethod(),
             'path' => $path,
-            'data_elements' => null,
+            'dataElements' => null,
         ];
+
         $queryParams = [];
         parse_str($this->getUri()->getQuery(), $queryParams);
         if (isset($queryParams['dataElements']) && !empty($queryParams['dataElements'])) {
-            $map['data_elements'] = explode(',', $queryParams['dataElements']);
+            if (is_array($queryParams['dataElements'])) {
+                $map['dataElements'] = $queryParams['dataElements'];
+            } else {
+                $map['dataElements'] = explode(',', $queryParams['dataElements']);
+            }
         }
 
         $specialPaths = [
@@ -326,13 +336,14 @@ class Request implements RequestInterface
             '/orders/v0/orders/{orderId}',
             '/orders/v0/orders/{orderId}/orderItems',
         ];
-        if ($map['data_elements'] === null && in_array($map['path'], $specialPaths)) {
-            return null;
+
+        if ($map['dataElements'] === null && in_array($map['path'], $specialPaths)) {
+            $map['dataElements'] = ['buyerInfo', 'shippingAddress'];
         }
 
         $restrictedResource = new RestrictedResource($map);
         return new CreateRestrictedDataTokenRequest([
-            'restricted_resources' => [$restrictedResource],
+            'restrictedResources' => [$restrictedResource],
         ]);
     }
 }
