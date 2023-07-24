@@ -69,6 +69,11 @@ class SellingPartner implements Signable
     public $endpoint;
 
     /**
+     * @var bool
+     */
+    protected $withRestrictedData = true;
+
+    /**
      * Create instance with default options
      */
     public function __construct($withDefaultOptions = true)
@@ -121,11 +126,18 @@ class SellingPartner implements Signable
                 continue;
             }
 
-            if ($name === 'endpoint' && is_string($value)) {
-                $value = strtoupper($value);
-                $sp->endpoint = Endpoint::$value();
-            } else {
-                $sp->$name = $value;
+            switch ($name) {
+                case 'endpoint':
+                    if (is_string($value)) {
+                        $value = strtoupper($value);
+                        $sp->endpoint = Endpoint::$value();
+                    }
+                    break;
+                case 'with_restricted_data':
+                    $sp->withRestrictedData = (bool)$value;
+                    break;
+                default:
+                    $sp->$name = $value;
             }
         }
 
@@ -150,7 +162,7 @@ class SellingPartner implements Signable
                     'refresh_token' => getenv('LWA_REFRESH_TOKEN') ?: '',
                     'access_key_id' => getenv('AWS_ACCESS_KEY_ID') ?: '',
                     'secret_access_key' => getenv('AWS_SECRET_ACCESS_KEY') ?: '',
-                    'role_arn' => getenv('ROLE_ARN') ?: '',
+                    'role_arn' => getenv('AWS_ROLE_ARN') ?: '',
                     'endpoint' => Endpoint::$endpointName(),
                 ];
             };
@@ -165,6 +177,34 @@ class SellingPartner implements Signable
     public static function setDefaultOptionsFunc(\Closure $defaultOptionsFunc)
     {
         self::$defaultOptionsFunc = $defaultOptionsFunc;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isWithRestrictedData()
+    {
+        return $this->withRestrictedData;
+    }
+
+    /**
+     * @return $this
+     */
+    public function withRestrictedData()
+    {
+        $this->withRestrictedData = true;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function withoutRestrictedData()
+    {
+        $this->withRestrictedData = false;
+
+        return $this;
     }
 
     /**
@@ -199,7 +239,7 @@ class SellingPartner implements Signable
         }
 
         $configuration = new Configuration();
-        $configuration->setUserAgent("august6th/amzn-sp-api/" . static::VERSION. " (Language=PHP)");
+        $configuration->setUserAgent("august6th/amzn-sp-api/" . static::VERSION . " (Language=PHP)");
         $configuration->setHost($this->endpoint->getHost());
 
         return $configuration;

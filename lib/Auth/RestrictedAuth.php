@@ -5,7 +5,6 @@ namespace SellingPartnerApi\Auth;
 use SellingPartnerApi\ApiException;
 use SellingPartnerApi\Contracts\Endpoint\Endpoint as EndpointContract;
 use SellingPartnerApi\Model\Tokens20210301\CreateRestrictedDataTokenRequest;
-use SellingPartnerApi\ObjectSerializer;
 use SellingPartnerApi\SellingPartner;
 
 class RestrictedAuth extends BasicAuth

@@ -197,7 +197,7 @@ class Request implements RequestInterface
             );
         }
 
-        if ($rdtRequest = $this->checkRestrictedRequest()) {
+        if ($rdtRequest = $this->checkRestrictedRequest($sp)) {
             return new RestrictedAuth(
                 $sp->endpoint, $sp->clientId, $sp->clientSecret,
                 $sp->accessKeyId, $sp->secretAccessKey, $sp->refreshToken,
@@ -278,9 +278,9 @@ class Request implements RequestInterface
     /**
      * @return CreateRestrictedDataTokenRequest|null
      */
-    private function checkRestrictedRequest()
+    private function checkRestrictedRequest(SellingPartner $sp)
     {
-        if (Endpoint::$sandbox) {
+        if (Endpoint::$sandbox || !$sp->isWithRestrictedData()) {
             return null;
         }
 
