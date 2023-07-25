@@ -5,20 +5,44 @@ namespace SellingPartnerApi\Helpers;
 class Date
 {
     /**
-     * @return string
-     * @throws \Exception
+     * @return \DateTime|null
      */
-    public static function utcDate($format = 'Ymd')
+    public static function utcDateTime()
     {
-        return (new \DateTime('now', new \DateTimeZone('UTC')))->format($format);
+        try {
+            $dateTime = new \DateTime('now', new \DateTimeZone('UTC'));
+        } catch (\Exception $e)  {
+            $dateTime = null;
+        }
+
+        return $dateTime;
     }
 
     /**
+     * @param $format
      * @return string
-     * @throws \Exception
      */
-    public static function utcDatetime($format = 'Ymd\THis\Z')
+    public static function utcDateFormat($format = 'Y-m-d')
     {
-        return (new \DateTime('now', new \DateTimeZone('UTC')))->format($format);
+        return self::utcDateTime()->format($format);
+    }
+
+    /**
+     * @param $format
+     * @return string
+     */
+    public static function utcDateTimeFormat($format = 'Y-m-d\TH:i:s\Z')
+    {
+        return self::utcDateTime()->format($format);
+    }
+
+    /**
+     * @param $dateString
+     * @param $format
+     * @return string
+     */
+    public static function utcDateTimeFormatWithInterval($dateString, $format = 'Y-m-d\TH:i:s\Z')
+    {
+        return self::utcDateTime()->add(\DateInterval::createFromDateString($dateString))->format($format);
     }
 }

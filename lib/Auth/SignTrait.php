@@ -95,7 +95,6 @@ trait SignTrait
 
     /**
      * @return string
-     * @throws \Exception
      */
     private function createSignString()
     {
@@ -105,7 +104,7 @@ trait SignTrait
         return sprintf(
             "%s\n%s\n%s\n%s",
             Auth::ALGORITHM_DESIGNATION,
-            Date::utcDatetime(),
+            Date::utcDateTimeFormat('Ymd\THis\Z'),
             $credentialScope,
             $hashedCanonicalRequest
         );
@@ -113,13 +112,12 @@ trait SignTrait
 
     /**
      * @return string
-     * @throws \Exception
      */
     private function createCredentialScope()
     {
         return sprintf(
             "%s/%s/%s/%s",
-            Date::utcDate(),
+            Date::utcDateFormat('Ymd'),
             $this->endpoint->getRegion(),
             $this->getServiceName(),
             Auth::TERMINATION_STRING
@@ -138,13 +136,12 @@ trait SignTrait
 
     /**
      * @return false|string
-     * @throws \Exception
      */
     private function createSignature()
     {
         $signString = $this->createSignString();
 
-        $date = hash_hmac('sha256', Date::utcDate(), "AWS4{$this->secretAccessKey}", true);
+        $date = hash_hmac('sha256', Date::utcDateFormat('Ymd'), "AWS4{$this->secretAccessKey}", true);
         $region = hash_hmac('sha256', $this->endpoint->getRegion(), $date, true);
         $service = hash_hmac('sha256', $this->getServiceName(), $region, true);
         $signing = hash_hmac('sha256', Auth::TERMINATION_STRING, $service, true);
@@ -154,7 +151,6 @@ trait SignTrait
 
     /**
      * @return string
-     * @throws \Exception
      */
     protected function createAuthorization()
     {

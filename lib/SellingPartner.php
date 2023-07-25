@@ -4,6 +4,7 @@ namespace SellingPartnerApi;
 
 use GuzzleHttp\ClientInterface;
 use Psr\Http\Message\RequestInterface;
+use SellingPartnerApi\Auth\SignerTrait;
 use SellingPartnerApi\Helpers\Api;
 use SellingPartnerApi\Http\Client;
 use SellingPartnerApi\Contracts\Auth\Signable;
@@ -19,6 +20,8 @@ use SellingPartnerApi\Http\Request;
  */
 class SellingPartner implements Signable
 {
+    use SignerTrait;
+
     const VERSION = '1.0.0';
 
     /**
@@ -72,6 +75,11 @@ class SellingPartner implements Signable
      * @var bool
      */
     protected $withRestrictedData = true;
+
+    /**
+     * @var RequestInterface
+     */
+    private $request;
 
     /**
      * Create instance with default options
@@ -270,6 +278,7 @@ class SellingPartner implements Signable
      */
     public function sign(Request $request, array $options = [])
     {
-        return $request->getSigner($this)->sign($request);
+        $this->request = $request;
+        return $this->getSigner()->sign($request);
     }
 }

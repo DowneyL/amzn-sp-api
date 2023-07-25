@@ -114,7 +114,7 @@ abstract class Auth implements Authenticatable, Signable
             return $this->request
                 ->withHeader('Authorization', $this->createAuthorization())
                 ->withHeader('x-amz-access-token', $this->getCredential()->getToken())
-                ->withHeader('x-amz-date', Date::utcDatetime());
+                ->withHeader('x-amz-date', Date::utcDateTimeFormat('Ymd\THis\Z'));
         } catch (\Exception $e) {
             // TODO log
             throw $e;

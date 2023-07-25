@@ -2,4 +2,4 @@
 vendor
 scripts
 config.json
-*.php
+/*.php
