@@ -50,7 +50,7 @@ class RestrictedAuth extends BasicAuth
                 'access_key_id' => $this->accessKeyId,
                 'secret_access_key' => $this->secretAccessKey,
                 'endpoint' => $this->endpoint,
-            ])->tokensApi()->createRestrictedDataToken($this->rdtRequest);
+            ])->tokens20210301Api()->createRestrictedDataToken($this->rdtRequest);
             return $this->createCredential($response->getRestrictedDataToken(), $response->getExpiresIn());
         } catch (ApiException $e) {
             throw new AuthenticationException($e->getMessage());
