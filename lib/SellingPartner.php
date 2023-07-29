@@ -86,14 +86,14 @@ class SellingPartner implements Signable
      * See https://developer-docs.amazon.com/sp-api/docs/viewing-your-application-information-and-credentials
      * @var string
      */
-    public $clientId;
+    private $clientId;
 
     /**
      * Get this value when you register your application
      * See https://developer-docs.amazon.com/sp-api/docs/viewing-your-application-information-and-credentials
      * @var string
      */
-    public $clientSecret;
+    private $clientSecret;
 
     /**
      * The LWA refresh token. Get this value when the selling
@@ -101,32 +101,32 @@ class SellingPartner implements Signable
      * See https://developer-docs.amazon.com/sp-api/docs/authorizing-selling-partner-api-applications
      * @var string
      */
-    public $refreshToken;
+    private $refreshToken;
 
     /**
      * @var string
      */
-    public $accessKeyId;
+    private $accessKeyId;
 
     /**
      * @var string
      */
-    public $secretAccessKey;
+    private $secretAccessKey;
 
     /**
      * @var string
      */
-    public $roleArn;
+    private $roleArn;
 
     /**
      * @var EndpointContract
      */
-    public $endpoint;
+    private $endpoint;
 
     /**
      * @var bool
      */
-    protected $withRestrictedData = true;
+    private $withRestrictedData = true;
 
     /**
      * @var RequestInterface

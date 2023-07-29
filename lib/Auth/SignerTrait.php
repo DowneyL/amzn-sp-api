@@ -107,6 +107,7 @@ trait SignerTrait
      */
     private function grantlessOperationMap()
     {
+        // TODO add more
         return [
             'sellingpartnerapi::notifications' => [
                 'get' => [
@@ -131,6 +132,7 @@ trait SignerTrait
      */
     private function restrictedOperationMap()
     {
+        // TODO add more
         return [
             'get' => [
                 '/orders/v0/orders',
